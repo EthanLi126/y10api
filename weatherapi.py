@@ -39,7 +39,7 @@ def writeCSS():
             myfile.write("}\n")
 
 def writeHTML(state,img,date,temp,mintemp,maxtemp,windspeed):
-            myfile = open("Weather.html","w")
+            myfile = open("weather.html","w")
             myfile.write("<head>\n")
             myfile.write("<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">\n")
             myfile.write("</head>\n")
