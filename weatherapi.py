@@ -95,7 +95,7 @@ def internet_on():
 
 def main():
 
-    def runit():
+    def runit(event):
         print(e1.get())
         #print(a.get())
         response1 = requests.get("https://www.metaweather.com/api/location/search/?query=" + e1.get())
@@ -139,8 +139,10 @@ def main():
         e1 = Entry(root )
         e1.insert(0,"Enter city name")
         e1.grid(row=1,column=1)
-        e1.bind("<Button>",deleteClick,)
-        b1 = Button(root,text="Submit",command=runit, height = 2, cursor = "hand1", width = 10)
+        e1.bind("<Button>",deleteClick)
+        e1.bind("<Return>", runit)
+        b1 = Button(root,text="Submit", height = 2, cursor = "hand1", width = 10)
+        b1.bind("<Button>",runit)
         b1.grid(row=1,column=2)
 
         root.mainloop()
