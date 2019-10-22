@@ -108,8 +108,13 @@ def main():
                 woeid = (firstresponse[0]['woeid'])
                 cityname = (firstresponse[0]['title'])
                 woeid = str(woeid)
-                print(woeid)
+                print("id is:", woeid)
                 root.destroy()
+        else:
+            state = "An Error has occured"
+            writeHTML(state)
+            print("An error has occured")
+            messagebox.showerror("Error", "An Error has occured")
 
     def deleteClick(event):
         e1.delete(0,END)
