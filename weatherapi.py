@@ -4,7 +4,8 @@ from urllib.request import urlopen
 import webbrowser
 from tkinter import *
 from tkinter import messagebox
-
+import os
+#function to write the CSS file
 def writeCSS():
             myfile = open("style.css", "w")
             myfile.write("html {background-image: linear-gradient(to bottom right, skyblue, white);}\n")
@@ -38,6 +39,7 @@ def writeCSS():
             myfile.write("  color: white;\n")
             myfile.write("}\n")
 
+#function to write the HTML file
 def writeHTML(state,img,date,temp,mintemp,maxtemp,windspeed):
             myfile = open("weather.html","w")
             myfile.write("<head>\n")
@@ -83,7 +85,7 @@ def writeHTML(state,img,date,temp,mintemp,maxtemp,windspeed):
             myfile.close()
 
 
-# test for internet connection
+# test for internet connection by sending a request to google.com
 def internet_on():
         try:
             urlopen('https://www.google.com', timeout=3)
@@ -99,7 +101,7 @@ def main():
         response1 = requests.get("https://www.metaweather.com/api/location/search/?query=" + e1.get())
         if (response1.status_code == 200):
             firstresponse = response1.json()
-            if not firstresponse:
+            if not firstresponse: #checks if city is included in the API, or if random characters/numbers are entered; the api will return a blank list if the city does not exist or is mispelled.
                 messagebox.showerror("Error","City not found. Please ensure a city name is entered, and is spelled correctly. The API used may also not include the city entered.")
                 print ("fake and bad")
             else:
@@ -125,7 +127,7 @@ def main():
 
     if internet_on():
 
-
+        #writes tkinter window.
         root = Tk()
         root.title("Weather")
         #a = StringVar()
@@ -155,11 +157,13 @@ def main():
                       maxtempi = (wjson["consolidated_weather"][0]['max_temp'])
                       windspeedi = (wjson["consolidated_weather"][0]['wind_speed'])
 
+                      #rounds values such as tempurature to create readable numbers.
                       windspeed = round(windspeedi)
                       temp = round(tempi)
                       mintemp = round(mintempi)
                       maxtemp = round(maxtempi)
 
+                      #selects an image depending on the state of the weather.
                       if(abbr == "lc"):
                           img="images/lc.svg"
                       elif(abbr == "c"):
@@ -183,22 +187,23 @@ def main():
 
               
                           
-                              
+                      #writes variables to the HTML file in order to be displayed.        
                       writeHTML(state,img,date,temp,mintemp,maxtemp,windspeed)
                       writeCSS()
-                      #print(state, temp, mintemp, maxtemp, windspeed,)
                       print("Files have been written. Please proceed")
-                      url = 'Weather.html'
-                      chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
-                      webbrowser.get(chrome_path).open(url)
+                      #opens html file by finding the absolute path and adding "file://" using string concatenation in order to create a valid URL.
+                      url = os.path.abspath("Weather.html")
+                      webbrowser.open("file://" + url)
       
                         
-                              
+                  
         else:
                 state = "An Error has occured"
                 writeHTML(state)
                 print("An error has occured")
                 messagebox.showerror("Error", "An Error has occured")
+
+#if not connected to the internet
     else:
         print("Internet disconnected. Please connect to the internet before running the program.")
         messagebox.showerror("Error","Internet disconnected. Please connect to the internet before running the program.")
