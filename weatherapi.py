@@ -100,7 +100,7 @@ def main():
         if (response1.status_code == 200):
             firstresponse = response1.json()
             if not firstresponse:
-                messagebox.showerror("Error","City not found. Please ensure a city name is entered, and is spelled correctly.")
+                messagebox.showerror("Error","City not found. Please ensure a city name is entered, and is spelled correctly. The API used may also not include the city entered.")
                 print ("fake and bad")
             else:
                 global woeid
