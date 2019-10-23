@@ -108,7 +108,6 @@ def main():
             firstresponse = response1.json()
             if not firstresponse: #checks if city is included in the API, or if random characters/numbers are entered; the api will return a blank list if the city does not exist or is mispelled.
                 messagebox.showerror("Error","City not found. Please ensure a city name is entered, and is spelled correctly. The API used may also not include the city entered.")
-                root.destroy()
                 print ("fake and bad")
             else:
                 global woeid
