@@ -1,6 +1,8 @@
 import requests
-import urllib
-from urllib.request import urlopen
+try:
+    import httplib
+except:
+    import http.client as httplib
 import webbrowser
 from tkinter import *
 from tkinter import messagebox
@@ -87,10 +89,13 @@ def writeHTML(state,img,date,temp,mintemp,maxtemp,windspeed):
 
 # test for internet connection by sending a request to google.com
 def internet_on():
+        conn = httplib.HTTPConnection("www.google.com", timeout=5)
         try:
-            urlopen('https://www.google.com', timeout=3)
+            conn.request("HEAD", "/")
+            conn.close()
             return True
-        except urllib.error.URLError as Error:
+        except:
+            conn.close()
             return False
 
 def main():
@@ -103,6 +108,7 @@ def main():
             firstresponse = response1.json()
             if not firstresponse: #checks if city is included in the API, or if random characters/numbers are entered; the api will return a blank list if the city does not exist or is mispelled.
                 messagebox.showerror("Error","City not found. Please ensure a city name is entered, and is spelled correctly. The API used may also not include the city entered.")
+                root.destroy()
                 print ("fake and bad")
             else:
                 global woeid
